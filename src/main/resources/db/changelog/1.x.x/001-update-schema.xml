@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+        http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
+
+    <changeSet author="azdine" id="001-update-schema-1">
+        <createSequence incrementBy="50" sequenceName="note_seq" startValue="1"/>
+    </changeSet>
+    <changeSet author="azdine" id="001-update-schema-2">
+        <createSequence incrementBy="50" sequenceName="revinfo_seq" startValue="1"/>
+    </changeSet>
+    <changeSet author="azdine" id="001-update-schema-3">
+        <createTable tableName="note">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="notePK"/>
+            </column>
+            <column name="created_by" type="VARCHAR(100)"/>
+            <column name="created_date" type="TIMESTAMP(6) WITHOUT TIME ZONE"/>
+            <column name="content" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="restricted_to_moderators" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="target_entity" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="target_entity_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="azdine" id="001-update-schema-4">
+        <createTable tableName="note_aud">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rev" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revtype" type="SMALLINT"/>
+            <column name="content" type="VARCHAR(500)"/>
+            <column name="restricted_to_moderators" type="BOOLEAN"/>
+            <column name="target_entity" type="VARCHAR(255)"/>
+            <column name="target_entity_id" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="azdine" id="001-update-schema-5">
+        <createTable tableName="revinfo">
+            <column autoIncrement="true" name="rev" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="revinfoPK"/>
+            </column>
+            <column name="revtstmp" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="azdine" id="001-update-schema-6">
+        <addPrimaryKey columnNames="rev, id" constraintName="note_audPK" tableName="note_aud"/>
+    </changeSet>
+    <changeSet author="azdine" id="001-update-schema-7">
+        <addForeignKeyConstraint baseColumnNames="rev" baseTableName="note_aud" constraintName="FKf4lnpja18lffbwr2fij7t2xrt" deferrable="false" initiallyDeferred="false" referencedColumnNames="rev" referencedTableName="revinfo" validate="true"/>
+    </changeSet>
+</databaseChangeLog>

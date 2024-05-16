@@ -1,0 +1,39 @@
+server:
+  port: 8081
+
+spring:
+  liquibase:
+    change-log: classpath:db/changelog/changelog-master.xml
+
+  datasource:
+    url: jdbc:postgresql://localhost:5433/note_app
+    username: client_hub
+    password: Pass_24
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    #    database: MYSQL
+    hibernate:
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+    database: POSTGRESQL
+    show-sql: true
+  cloud:
+    config:
+      enabled: false
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri:  http://localhost:9080/realms/wallte-realm
+          jwk-set-uri: http://localhost:9080/realms/wallte-realm/protocol/openid-connect/certs
+
+
+#  spring.security.oauth2.resourceserver.jwt.jwk-set-uri=http://localhost:8080/realms/bdcc-realm/protocol/openid-connect/certs
+
+app:
+  keycloak:
+    auth-server-url: http://localhost:9080
+    realm: wallte-realm
+    resource: font-end-next-client
+    principal-attribute: preferred_username
+    credentials:
+      secret: VVitbAShyFkGf1VJ7bTkYXAa5zwhM5n9

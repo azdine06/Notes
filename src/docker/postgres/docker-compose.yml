@@ -1,0 +1,13 @@
+version: '3.7'
+
+services:
+  postgres:
+    container_name: font_client_docker
+    image: postgres:16.1
+    environment:
+      POSTGRES_PASSWORD: mysecretpassword
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./data:/var/lib/postgresql/data
